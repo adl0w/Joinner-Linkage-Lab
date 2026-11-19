@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Design and simulate simple linkages and mechanisms in your browser.">
+  <title>Joinner — mechanism design</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Joinner home"><span class="brand-icon"><svg viewBox="0 0 32 32"><path d="M5 16h7m-3.5-3.5v7M12 16h3m0 0 8-7m-8 7 8 7m0-14 1 14"/><circle cx="15" cy="16" r="2"/><circle cx="23" cy="9" r="2"/><circle cx="24" cy="23" r="2"/></svg></span><span>Joinner</span></a>
+    <div class="project-name"><span class="status-dot"></span><span>Untitled mechanism</span><span class="saved">Saved</span></div>
+    <div class="top-actions"><button class="icon-btn" id="undoBtn" title="Undo" aria-label="Undo"><svg viewBox="0 0 20 20"><path d="M7 6 3.5 9.5 7 13M4 9.5h7a5 5 0 0 1 5 5"/></svg></button><button class="icon-btn" id="redoBtn" title="Redo" aria-label="Redo"><svg viewBox="0 0 20 20"><path d="m13 6 3.5 3.5L13 13m3-3.5h-7a5 5 0 0 0-5 5"/></svg></button><span class="divider"></span><button class="icon-btn" id="exportBtn" title="Export SVG" aria-label="Export"><svg viewBox="0 0 20 20"><path d="M10 3v9m-3-3 3 3 3-3M4 13v3h12v-3"/></svg></button><button class="share-btn" id="clearBtn">Clear canvas</button></div>
+  </header>
+  <main class="app-shell">
+    <nav class="component-toolbar" id="componentToolbar" aria-label="Build tools">
+      <div class="toolbox-heading"><span class="panel-glyph toolbox-glyph">✣</span><div><b>TOOLBOX</b><small>Choose a tool</small></div></div>
+      <section class="toolbox-group" aria-label="Pointer tools">
+        <div class="toolbox-group-title"><span>01</span> POINTER</div>
+        <div class="component-list">
+          <button class="component active" data-tool="select"><span class="component-icon cursor-icon"><svg viewBox="0 0 24 24"><path d="m6 3 12 10-6 .7-3 5.3L6 3Z"/></svg></span><span class="component-copy"><b>Select</b><small>Move and inspect</small></span><kbd>V</kbd></button>
+        </div>
+      </section>
+      <section class="toolbox-group" aria-label="Parts">
+        <div class="toolbox-group-title"><span>02</span> PARTS</div>
+        <div class="component-list">
+          <button class="component" data-tool="bar"><span class="component-icon"><svg viewBox="0 0 24 24"><circle cx="5" cy="18" r="2"/><circle cx="19" cy="6" r="2"/><path d="m6.5 16.5 11-11"/></svg></span><span class="component-copy"><b>Rigid bar</b><small>Connect two joints</small></span><kbd>B</kbd></button>
+          <button class="component" data-tool="spring"><span class="component-icon spring-icon"><svg viewBox="0 0 24 24"><circle cx="4" cy="19" r="1.5"/><circle cx="20" cy="5" r="1.5"/><path d="m5.5 17.5 3-3-3-2.5 4-3-2-2 4-3"/></svg></span><span class="component-copy"><b>Spring</b><small>Elastic connection</small></span><kbd>S</kbd></button>
+          <button class="component" data-tool="slider"><span class="component-icon slider-icon"><svg viewBox="0 0 24 24"><path d="M4 18h16M4 6h16"/><rect x="8" y="8" width="8" height="8" rx="1.5"/><path d="M12 5v3m0 8v3"/></svg></span><span class="component-copy"><b>Slider</b><small>Linear guide</small></span><kbd>L</kbd></button>
+        </div>
+      </section>
+      <section class="toolbox-group" aria-label="Joints and constraints">
+        <div class="toolbox-group-title"><span>03</span> JOINTS &amp; CONSTRAINTS</div>
+        <div class="component-list">
+          <button class="component" data-tool="pivot"><span class="component-icon pin-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/></svg></span><span class="component-copy"><b>pivot</b><small>Allow rotation</small></span><kbd>R</kbd></button>
+          <button class="component" data-tool="pinJoint"><span class="component-icon angle-pin-icon"><svg viewBox="0 0 24 24"><path d="M5 18 12 12 19 5M12 12v9M8 8a6 6 0 0 1 8 0"/><circle cx="12" cy="12" r="2"/></svg></span><span class="component-copy"><b>Angle pin</b><small>Lock this angle</small></span><kbd>J</kbd></button>
+          <button class="component" data-tool="pin"><span class="component-icon pin-icon"><svg viewBox="0 0 24 24"><path d="M6 19h12M8 17l4-10 4 10z"/><circle cx="12" cy="6" r="2"/></svg></span><span class="component-copy"><b>Fixed pivot</b><small>Hold joint in place</small></span><kbd>P</kbd></button>
+          <button class="component" data-tool="stop"><span class="component-icon stop-icon"><svg viewBox="0 0 24 24"><path d="M4 19h16M7 19l2-3h6l2 3M9 16V9a3 3 0 0 1 6 0v7"/><path d="M9 12h6"/></svg></span><span class="component-copy"><b>Stop</b><small>Block rotation</small></span><kbd>T</kbd></button>
+        </div>
+      </section>
+      <div class="toolbox-tip"><span class="tip-star">★</span><b>Quick start</b><span>Pick a part, then click twice on the canvas.</span></div>
+      <div class="sidebar-foot"><span class="keyboard-dot"></span>Shortcuts <kbd>?</kbd><a href="#" id="helpBtn">View guide <span>↗</span></a></div>
+    </nav>
+    <section class="workspace">
+      <div class="canvas-toolbar"><div class="mode-switch" role="tablist" aria-label="Workspace mode"><button class="mode active" data-mode="edit" role="tab" aria-selected="true"><span class="mode-mark edit-mark">↗</span>Edit</button><button class="mode" data-mode="test" role="tab" aria-selected="false"><span class="mode-mark play-mark">▶</span>Play</button></div><div class="toolbar-spacer"></div><div class="tool-tip" id="toolTip">Select a part to inspect · drag joints to move</div><button class="icon-btn zoom-btn" id="zoomOut" title="Zoom out" aria-label="Zoom out">−</button><span class="zoom-readout" id="zoomReadout">100%</span><button class="icon-btn zoom-btn" id="zoomIn" title="Zoom in" aria-label="Zoom in">+</button><button class="icon-btn" id="fitBtn" title="Fit view" aria-label="Fit view"><svg viewBox="0 0 20 20"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg></button></div>
+      <div class="canvas-wrap" id="canvasWrap">
+        <svg id="canvas" viewBox="0 0 1000 650" preserveAspectRatio="xMidYMid meet" aria-label="Mechanism design canvas">
+          <defs><pattern id="minorGrid" width="20" height="20" patternUnits="userSpaceOnUse"><rect class="grid-point" data-grid-point x="-1" y="-1" width="2" height="2" fill="#a9b7a6"/></pattern><pattern id="grid10" width="10" height="10" patternUnits="userSpaceOnUse"><rect class="grid-point" data-grid-point x="-1" y="-1" width="2" height="2" fill="#9caa9a"/></pattern><pattern id="grid5" width="5" height="5" patternUnits="userSpaceOnUse"><rect class="grid-point" data-grid-point x="-1" y="-1" width="2" height="2" fill="#8f9e8e"/></pattern><pattern id="majorGrid" width="100" height="100" patternUnits="userSpaceOnUse"><rect width="100" height="100" fill="url(#minorGrid)"/><path d="M0 0V100M0 20H100" fill="none" stroke="#b7c5b4" stroke-width="1.5"/></pattern><filter id="selectedShadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#5468ee" flood-opacity=".16"/></filter></defs>
+          <rect id="gridBg" x="-100000" y="-100000" width="200000" height="200000" fill="url(#majorGrid)"/>
+          <rect id="fineGrid10" x="-100000" y="-100000" width="200000" height="200000" fill="url(#grid10)" opacity=".7" pointer-events="none" display="none"/>
+          <rect id="fineGrid5" x="-100000" y="-100000" width="200000" height="200000" fill="url(#grid5)" opacity=".55" pointer-events="none" display="none"/>
+          <rect id="layerWash" x="-100000" y="-100000" width="200000" height="200000" pointer-events="none"/>
+          <g id="axes"><path d="M500 -100000V100000M-100000 320H100000" stroke="#9ca7b5" stroke-width="1" stroke-dasharray="4 6" opacity=".42"/><circle cx="500" cy="320" r="3" fill="#77849a" opacity=".6"/><text x="512" y="309" class="origin-label">0, 0</text></g>
+          <g id="mechanism"></g><g id="dimensions"></g><g id="forceVectors"></g><g id="trails"></g><g id="ghost"></g><g id="jointOverlay"></g><g id="foregroundPins"></g>
+        </svg>
+        <div class="layer-panel" id="layerPanel" aria-label="Mechanism layers"><div class="layer-heading">LAYERS</div><div class="layer-list" id="layerList"></div><button class="add-layer" id="addLayer" type="button">＋ Layer</button></div>
+        <div class="dimension-entry" id="dimensionEntry"><label for="dimensionInput">LENGTH <span id="dimensionUnits">mm</span></label><div class="dimension-field"><input id="dimensionInput" inputmode="decimal" autocomplete="off"><button class="dimension-lock-toggle" id="dimensionLockToggle" type="button" aria-label="Lock dimension" aria-pressed="false" title="Lock dimension"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="lock-shackle" d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2"/><rect x="3" y="7" width="10" height="7" rx="1.5"/><circle cx="8" cy="10.5" r=".8"/></svg></button><span id="dimensionSuffix">mm</span></div><small>Enter to set · Esc to cancel</small></div>
+        <div class="simulation-banner" id="simulationBanner" role="status" aria-live="polite"><span class="solver-dot"></span><span id="simulationMessage">Paused at initial pose</span><span class="sim-time" id="simulationTime">0.00 s</span></div>
+        <div class="simulation-dock" id="simulationDock" aria-label="Simulation controls"><button class="sim-control reset-control" id="simReset" title="Reset to initial pose" aria-label="Reset to initial pose">↺</button><button class="sim-control step-control" id="simStep" title="Advance one frame" aria-label="Advance one frame">▸│</button><button class="sim-control primary-control" id="simPlay" aria-label="Start simulation"><span id="playGlyph">▶</span><span id="playLabel">Play</span></button><span class="dock-divider"></span><label class="speed-control" for="simSpeed"><span>Speed</span><b id="simSpeedLabel">1×</b><input id="simSpeed" type="range" min="0.25" max="2" step="0.25" value="1" aria-label="Simulation playback speed"></label><button class="dock-toggle" id="trailToggle" aria-pressed="false" title="Show motion trails">Trail</button></div>
+        <div class="canvas-hint" id="canvasHint"><span class="hint-icon">⌖</span><span>Snap to grid</span><span class="hint-sep">·</span><span>20 px</span><span class="hint-sep">·</span><span>0°</span></div>
+        <button class="canvas-help" id="canvasHelp" title="Keyboard shortcuts">?</button>
+      </div>
+      <div class="bottom-bar"><div class="selection-info" id="selectionInfo"><span class="selection-indicator"></span><span>No selection</span></div><div class="bottom-center"><span class="bottom-dot"></span><span id="forceSummary">Add components to begin testing your mechanism</span></div><div class="coordinates" id="coordinates">x 0.0 &nbsp; y 0.0 <span id="coordUnit">mm</span></div></div>
+    </section>
+    <aside class="right-dock" aria-label="Controls and properties">
+      <section class="sidebar" aria-label="Workspace settings">
+        <div class="dock-section-heading"><span class="panel-glyph settings-glyph">⚙</span><div><b>WORKSPACE</b><small>Grid &amp; units</small></div></div>
+      <div class="setting-row"><span>Grid snap</span><button class="toggle on" id="gridToggle" aria-label="Toggle grid snap"><span></span></button></div>
+      <div class="setting-row"><span>Grid spacing</span><div class="setting-value"><input id="gridSize" value="20" inputmode="decimal" aria-label="Grid spacing"><span>px</span></div></div>
+      <div class="setting-row"><span>Units</span><select id="units"><option value="mm">Millimeters</option><option value="cm">Centimeters</option><option value="in">Inches</option></select></div>
+      <div class="side-rule"></div>
+      <div class="dock-section-heading simulation-heading"><span class="panel-glyph simulation-glyph">▶</span><div><b>SIMULATION</b><small>Physics settings</small></div><span class="live-tag"><i></i>LIVE</span></div>
+      <div class="setting-row"><span>Gravity</span><button class="toggle on" id="gravityToggle" aria-label="Toggle gravity"><span></span></button></div>
+      <div class="setting-row"><span>Gravity strength</span><div class="setting-value"><input id="gravityValue" value="9.81" inputmode="decimal" aria-label="Gravity strength"><span>m/s²</span></div></div>
+      </section>
+      <section class="inspector" id="inspector" aria-label="Component properties"><div class="dock-section-heading"><span class="panel-glyph properties-glyph">▣</span><div><b>PROPERTIES</b><small id="inspectorTitle">No selection</small></div><button class="icon-btn close-inspector" id="deselectBtn" title="Deselect" aria-label="Deselect">×</button></div><div class="inspector-empty" id="inspectorEmpty"><div class="inspector-empty-icon">◌</div><p>Select a component on the canvas to view its properties.</p></div><div id="inspectorFields" hidden></div><div class="inspector-footer"><span class="keyboard-dot"></span>Changes update in real time</div></section>
+    </aside>
+  </main>
+  <div class="toast" id="toast" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
